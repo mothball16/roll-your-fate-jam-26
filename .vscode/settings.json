@@ -1,0 +1,13 @@
+{
+    "files.exclude": {
+        "**/*.meta": true,
+        "**/Library/": true,
+        "**/Temp/": true,
+        "**/Logs/": true,
+        "**/UserSettings/": true,
+        "**/.vs/": true,
+        "**/*.csproj": true,
+        "**/*.sln": true,
+        "**/*.slnx": true
+    }
+}
