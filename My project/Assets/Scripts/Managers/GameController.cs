@@ -23,8 +23,10 @@ public class GameController : MonoBehaviour
     public void Start()
     {
         charManager = CharManager.Instance;
-        charManager.SpawnChar(CharType.Player, Vector2.zero);
+        var player = charManager.SpawnChar(CharType.Player, Vector2.zero);
         charManager.SpawnChar(CharType.Barbarian, new(0, 5));
+        var cameraFollow = Camera.main.GetComponent<CameraFollow>();
+        cameraFollow.player = player.transform;
     }
 
 
