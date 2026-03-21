@@ -12,11 +12,14 @@ namespace Assets.Scripts.Attacks
         private TeamType _teamType;
         private bool _initialized;
         private Rigidbody2D _rb;
-        public AttackEffect HitEffect = new AttackEffect();
+        public AttackEffect HitEffect = new();
 
-        public void Init(GameObject owner, float damage, float speed, Vector3 direction)
+        public void Awake()
         {
             _rb = gameObject.GetComponent<Rigidbody2D>();
+        }
+        public void Init(GameObject owner, float damage, float speed, Vector3 direction)
+        {
             _owner = owner;
             _damage = damage;
 
