@@ -8,7 +8,7 @@ using Assets.Scripts.Components;
 
 namespace Assets.Scripts.Managers
 {
-    enum CharType
+    public enum CharType
     {
         Player,
         Skeleton,
@@ -17,13 +17,13 @@ namespace Assets.Scripts.Managers
     }
 
     [Serializable]
-    struct CharLink
+    public struct CharLink
     {
         public CharType character;
         public GameObject prototype;
     }
 
-    class CharManager : MonoSingleton<CharManager>
+    public class CharManager : MonoSingleton<CharManager>
     {
         [SerializeField]
         private List<CharLink> _charFactory;
