@@ -26,6 +26,8 @@ namespace Assets.Scripts.Attacks
 
 
             _rb.linearVelocity = (Vector2)direction * speed;
+            transform.up = _rb.linearVelocity;
+
             _initialized = true;
             Destroy(gameObject, 10f);
         }
