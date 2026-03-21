@@ -15,9 +15,11 @@ MonoBehaviour:
   Name: n/a
   AimType: 2
   Cooldown: 1
-  ProjectilePrefab: {fileID: 0}
+  DetectionRadius: 8
+  ProjectilePrefab: {fileID: 3477019457270839844, guid: 22fdefc215c6c604f8f70f8bec7d4ed1, type: 3}
   Damage: 10
   Speed: 20
+  SpeedVariance: 2
   ProjectileCount: 3
   SpreadAngle: 45
   Inaccuracy: 0
