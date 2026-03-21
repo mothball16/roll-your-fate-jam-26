@@ -1,3 +1,4 @@
+using Assets.Scripts.Managers;
 using DangryGames;
 using UnityEngine;
 
@@ -18,10 +19,10 @@ public class GameController : MonoBehaviour
     public int bulletCountTier = 0;
     public int speedTier = 0;
 
-
+    public CharManager charManager = CharManager.Instance;
     public void Awake()
     {
-        
+        charManager.SpawnChar(CharType.Player, Vector2.zero);
     }
 
 
