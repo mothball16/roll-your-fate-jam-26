@@ -19,9 +19,10 @@ public class GameController : MonoBehaviour
     public int bulletCountTier = 0;
     public int speedTier = 0;
 
-    public CharManager charManager = CharManager.Instance;
-    public void Awake()
+    private CharManager charManager;
+    public void Start()
     {
+        charManager = CharManager.Instance;
         charManager.SpawnChar(CharType.Player, Vector2.zero);
     }
 
