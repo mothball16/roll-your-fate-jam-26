@@ -6,7 +6,8 @@ using UnityEngine;
 public enum LookType
 {
     Manual,
-    AimFront
+    AimFront,
+    LeftRight,
 }
 
 public class CharacterController : MonoBehaviour
@@ -15,7 +16,7 @@ public class CharacterController : MonoBehaviour
     [SerializeField] protected Vector3 _velocity;
     [SerializeField] protected float _snappiness = 5f;
     [SerializeField] protected float _maxSpeed = 20f;
-
+    [SerializeField] protected float _damping = 5f;
     public Vector3 SteeringForce = Vector3.zero;
 
     public LookType LookType = LookType.AimFront;
@@ -31,14 +32,30 @@ public class CharacterController : MonoBehaviour
         _acceleration += SteeringForce;
         _velocity += _acceleration * Time.deltaTime;
         _velocity = Vector3.ClampMagnitude(_velocity, _maxSpeed);
-
         transform.position += _velocity * Time.deltaTime;
+
+        // slowdown stuff
+        _velocity = Vector3.Lerp(_velocity, Vector3.zero, Time.deltaTime * _damping);
+        if (_velocity.magnitude < 0.01)
+        {
+            _velocity = Vector3.zero;
+        }
 
         // calc and set rotation
         switch (LookType)
         {
             case LookType.Manual:
                 // nothing much to be implemented
+                break;
+            case LookType.LeftRight:
+                if(_velocity.x < 0)
+                {
+                    Rotation = Quaternion.Euler(0, 0, 0);
+                }
+                else if(_velocity.x > 0)
+                {
+                    Rotation = Quaternion.Euler(0, 180, 0);
+                }
                 break;
             case LookType.AimFront:
                 if (_velocity != Vector3.zero)

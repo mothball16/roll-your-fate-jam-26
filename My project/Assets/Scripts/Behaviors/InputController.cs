@@ -33,9 +33,7 @@ namespace Assets.Scripts.Behaviors
 
         public void Update()
         {
-            // Vector2 mouse = InputSystem.
-            float angle = 45; //Mathf.Atan2(_velocity.y, _velocity.x) * Mathf.Rad2Deg;
-            _char.Rotation = Quaternion.Euler(0, 0, angle - 90);
+
         }
 
 
@@ -48,7 +46,7 @@ namespace Assets.Scripts.Behaviors
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            _char.SteeringForce = context.ReadValue<Vector2>();
+            _char.SteeringForce = context.ReadValue<Vector2>() * _char.MaxSpeed;
         }
 
         public void OnLook(InputAction.CallbackContext context)
