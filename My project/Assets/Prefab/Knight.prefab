@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 358730b7c6c81c245a7a30f7d4be0f23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Attacks.AutoAttacker
+  DetectionRadius: 15
   Attacks:
   - AttackDef: {fileID: 11400000, guid: 59aa1c94b47dd694588e2de5e785d51f, type: 2}
     CurCooldown: 0
