@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369866362632333967}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.5343, y: 5.5343, z: 5.5343}
+  m_LocalRotation: {x: 0.09577761, y: -0, z: -0.9954028, w: 0}
+  m_LocalPosition: {x: 0.117, y: -0.066, z: 0.054}
+  m_LocalScale: {x: 0.14181359, y: 0.13880923, z: 5.5343}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8039034603880480312}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -10.992, z: -180}
 --- !u!212 &4536012529936794271
 SpriteRenderer:
   serializedVersion: 2
@@ -81,12 +81,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 2d9510842e9a6994b9716fd0c573659d, type: 3}
+  m_Sprite: {fileID: 8965517027233988071, guid: 6f131255407a66b41a4fdaf64f3facf8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 16, y: 8.06}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 8663627760343003392}
   - component: {fileID: 4400803145188629760}
   - component: {fileID: 4640921881092950497}
+  - component: {fileID: 8535886659813854406}
   m_Layer: 0
   m_Name: Knight
   m_TagString: Untagged
@@ -141,7 +142,7 @@ MonoBehaviour:
   _acceleration: {x: 0, y: 0, z: 0}
   _velocity: {x: 0, y: 0, z: 0}
   _snappiness: 5
-  _maxSpeed: 20
+  _maxSpeed: 50
   _damping: 8
   SteeringForce: {x: 0, y: 0, z: 0}
   LookType: 1
@@ -188,7 +189,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -204,3 +205,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &8535886659813854406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9004147769491987110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 358730b7c6c81c245a7a30f7d4be0f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Attacks.AutoAttacker
+  Attacks:
+  - AttackDef: {fileID: 11400000, guid: c5b467b6e09e27d468eaebe966f5461f, type: 2}
+    CurCooldown: 0
+  - AttackDef: {fileID: 11400000, guid: 280402646e67d8442b61e2952188cc08, type: 2}
+    CurCooldown: 0
