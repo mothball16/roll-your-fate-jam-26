@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour
     {
         charManager = CharManager.Instance;
         charManager.SpawnChar(CharType.Player, Vector2.zero);
+        charManager.SpawnChar(CharType.Barbarian, new(0, 5));
     }
 
 

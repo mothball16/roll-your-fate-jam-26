@@ -104,6 +104,8 @@ GameObject:
   - component: {fileID: 4400803145188629760}
   - component: {fileID: 4640921881092950497}
   - component: {fileID: 8535886659813854406}
+  - component: {fileID: 626966568037625160}
+  - component: {fileID: 5184631394064762008}
   m_Layer: 0
   m_Name: Knight
   m_TagString: Untagged
@@ -218,7 +220,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Attacks.AutoAttacker
   Attacks:
-  - AttackDef: {fileID: 11400000, guid: c5b467b6e09e27d468eaebe966f5461f, type: 2}
+  - AttackDef: {fileID: 11400000, guid: 59aa1c94b47dd694588e2de5e785d51f, type: 2}
     CurCooldown: 0
-  - AttackDef: {fileID: 11400000, guid: 280402646e67d8442b61e2952188cc08, type: 2}
-    CurCooldown: 0
+--- !u!114 &626966568037625160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9004147769491987110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da62ab3b4d01da43bf6d4afa4d7f67f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Components.Team
+  team: 0
+--- !u!114 &5184631394064762008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9004147769491987110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66330fd068136d847a0743e817708394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Components.Humanoid
+  Health: 100
+  MaxHealth: 100

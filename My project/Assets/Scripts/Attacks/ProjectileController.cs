@@ -48,19 +48,16 @@ namespace Assets.Scripts.Attacks
         }
 
 
-        // Must be 2D to match Rigidbody2D
         private void OnTriggerEnter2D(Collider2D foreign)
         {
             GameObject victim = foreign.gameObject;
 
-            if (victim == _owner || !DetermineIfValidVictim(victim))
+            if (victim == _owner 
+                || !victim.TryGetComponent<Humanoid>(out var health)
+                || !DetermineIfValidVictim(victim))
                 return;
 
-            if (victim.TryGetComponent<Humanoid>(out var health))
-            {
-                health.TakeDamage(_damage);
-            }
-
+            health.TakeDamage(_damage);
             HitEffect?.Play(transform.position, _rb.linearVelocity.normalized);
 
             Destroy(gameObject);
@@ -68,6 +65,7 @@ namespace Assets.Scripts.Attacks
 
         private bool DetermineIfValidVictim(GameObject victim)
         {
+
             if (!victim.TryGetComponent<Team>(out var team))
                 return true;
 

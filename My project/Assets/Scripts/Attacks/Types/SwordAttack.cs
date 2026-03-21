@@ -1,8 +1,8 @@
-﻿﻿using Assets.Scripts.Components;
+﻿using Assets.Scripts.Components;
 using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Attacks
+namespace Assets.Scripts.Attacks.Types
 {
     [CreateAssetMenu(fileName = "New Sword Attack", menuName = "Attacks/Sword Attack")]
     public class SwordAttack : Attack
