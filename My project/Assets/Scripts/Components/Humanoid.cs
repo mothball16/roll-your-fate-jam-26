@@ -5,9 +5,26 @@ using UnityEngine;
 
 namespace Assets.Scripts.Components
 {
-    [RequireComponent(typeof(CharacterController))]
-    class Humanoid
+    class Humanoid : MonoBehaviour
     {
+        public event Action<float, float> OnHealthChanged;
+        public event Action OnDeath;
+        public float Health;
+        public float MaxHealth;
+        public void TakeDamage(float damage)
+        {
+            var origHealth = Health;
+            Health = Math.Clamp(Health - damage, 0, MaxHealth);
+            if (Health != origHealth)
+            {
+                OnHealthChanged?.Invoke(origHealth, Health);
+            }
+            if (Health <= 0)
+            {
+                OnDeath?.Invoke();
+            }
+        }
+
         
     }
 }

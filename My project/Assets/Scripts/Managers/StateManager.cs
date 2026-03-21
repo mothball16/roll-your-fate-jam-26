@@ -1,6 +1,6 @@
-using DangryGames;
-using UnityEngine;
 
+using UnityEngine;
+using DangryGames;
 
 public enum GameState
 {
@@ -14,12 +14,7 @@ class StateManager : MonoSingleton<StateManager>
     
     public override void Awake()
     {
-        _wantToDestroyOnLoad = false;
         base.Awake();
     }
-
-
-
-    
 
 }

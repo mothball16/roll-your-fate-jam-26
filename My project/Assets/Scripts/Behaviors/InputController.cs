@@ -31,14 +31,6 @@ namespace Assets.Scripts.Behaviors
             _actions.Player.RemoveCallbacks(this);
         }
 
-        public void Update()
-        {
-
-        }
-
-
-
-
         public void OnSprint(InputAction.CallbackContext context)
         {
 

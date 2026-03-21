@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 4400803145188629760}
   - component: {fileID: 4640921881092950497}
   m_Layer: 0
-  m_Name: tyrone
+  m_Name: Knight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
   _maxSpeed: 20
   _damping: 8
   SteeringForce: {x: 0, y: 0, z: 0}
-  LookType: 2
+  LookType: 1
   Rotation: {x: 0, y: 0, z: 0, w: 1}
 --- !u!114 &4400803145188629760
 MonoBehaviour:
