@@ -5,6 +5,7 @@ using DangryGames;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 
 public enum BattleState
@@ -33,6 +34,8 @@ public class GameController : MonoBehaviour
     private GameUIManager uiManager;
 
     public List<UpgradeData> bought;
+
+    public AudioClip? win;
 
     public void Start()
     {
@@ -145,6 +148,7 @@ public class GameController : MonoBehaviour
                 break;
             case BattleState.LevelSetup:
                 int nextLevelIndex = (int)Level + 1;
+                AudioSource.PlayClipAtPoint(win, Camera.main.transform.position);
                 if (!System.Enum.IsDefined(typeof(Level), nextLevelIndex))
                     WinGame();
                 else
