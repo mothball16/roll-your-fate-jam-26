@@ -31,6 +31,27 @@ namespace Assets.Scripts.Behaviors
             _actions.Player.RemoveCallbacks(this);
         }
 
+        public void Update()
+        {
+            var mousePos = Mouse.current.position.ReadValue();
+            var propX = mousePos.x / Screen.width;
+            var propY = mousePos.y / Screen.height;
+
+
+            var dir = new Vector3(
+                (float)(propX - 0.5) * 2,
+                (float)(propY - 0.5) * 2,
+                0);
+
+            if(dir.magnitude == 0)
+            {
+                dir = Vector3.one;
+            }
+
+            dir.Normalize();
+            _char.SteeringForce = dir * _char.MaxSpeed;
+        }
+
         public void OnSprint(InputAction.CallbackContext context)
         {
 
@@ -38,7 +59,10 @@ namespace Assets.Scripts.Behaviors
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            _char.SteeringForce = context.ReadValue<Vector2>() * _char.MaxSpeed;
+            //_char.SteeringForce = context.ReadValue<Vector2>() * _char.MaxSpeed;
+
+
+
         }
 
         public void OnLook(InputAction.CallbackContext context)
