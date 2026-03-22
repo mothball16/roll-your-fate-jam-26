@@ -122,16 +122,17 @@ public class GameController : MonoBehaviour
         bought.Add(upgrade);
     }
 
+
     public void WinGame()
     {
-        Time.timeScale = 1f; // Reset timescale just in case we win while paused
-        SceneManager.LoadSceneAsync(WinSceneName);
+        Time.timeScale = 1f;
+        SceneManager.LoadSceneAsync(0);
     }
 
     public void LoseGame()
     {
-        Time.timeScale = 1f; // Reset timescale just in case
-        SceneManager.LoadSceneAsync(LoseSceneName);
+        Time.timeScale = 1f;
+        SceneManager.LoadSceneAsync(0);
     }
 
     public void Update()
