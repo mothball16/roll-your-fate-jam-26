@@ -28,6 +28,8 @@ namespace Assets.Scripts.Components
 
         public void TakeDamage(float damage)
         {
+            if (Health <= 0) return; // Prevent multiple death events
+
             var origHealth = Health;
             Health = Math.Clamp(Health - damage, 0, MaxHealth);
             if (Health != origHealth)
