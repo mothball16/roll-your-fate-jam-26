@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Assets.Scripts.Managers;
 using Assets.Scripts.Components;
+using UnityEngine.SceneManagement;
 
 public enum LevelState
 {
@@ -32,12 +33,9 @@ public class LevelManager : MonoBehaviour
     private Transform[] spawnPoints;
     private float spawnTimer;
 
-    [SerializeField] private Canvas shopCanvas;
-
     void Start()
     {
         CacheSpawnPoints();
-        shopCanvas.gameObject.SetActive(false); // ✅ start hidden
         TransitionToState(LevelState.LevelActive);
     }
 
@@ -98,7 +96,7 @@ public class LevelManager : MonoBehaviour
 
     private void PrepareLevel()
     {
-        enemiesRemainingInLevel = 5 + (currentLevel * 5); // scalable
+        enemiesRemainingInLevel = 1; // scalable
         enemiesCurrentlyActive = 0;
 
         spawnInterval = Mathf.Max(0.5f, baseSpawnInterval - currentLevel * 0.1f);
@@ -106,24 +104,27 @@ public class LevelManager : MonoBehaviour
 
         spawnTimer = spawnInterval; // spawn immediately
 
-        shopCanvas.gameObject.SetActive(false); // ✅ hide shop
 
         Debug.Log($"--- Level {currentLevel} Started ---");
     }
 
     private void OpenShopUI()
     {
-        shopCanvas.gameObject.SetActive(true);
-        Debug.Log("Level Clear! Opening Shop...");
+        DestroyPlayer();
+        SceneManager.LoadScene("ShopScene", LoadSceneMode.Additive);
+        Time.timeScale = 0f; // pause gameplay
+        Debug.Log("Opening Shop Scene...");
     }
 
     public void FinishShopping()
     {
-        shopCanvas.gameObject.SetActive(false); // ❗ FIXED (was true)
-        Debug.Log("Closing Shop...");
+        Debug.Log("Closing Shop Scene...");
+
+        SceneManager.UnloadSceneAsync("ShopScene");
+        Time.timeScale = 1f;
+
         TransitionToState(LevelState.LevelTransition);
     }
-
     private void StartNextLevel()
     {
         currentLevel++;
@@ -168,6 +169,20 @@ public class LevelManager : MonoBehaviour
         for (int i = 0; i < folder.childCount; i++)
         {
             spawnPoints[i] = folder.GetChild(i);
+        }
+    }
+    void DestroyPlayer()
+    {
+        // Find player via CharManager tracking OR tag
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null)
+        {
+            CharManager.Instance.DestroyChar(player);
+        }
+        else
+        {
+            Debug.LogWarning("Player not found!");
         }
     }
 }

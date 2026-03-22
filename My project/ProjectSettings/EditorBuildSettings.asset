@@ -8,5 +8,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/UI(Copy Canvas).unity
+    guid: 3c302e6917fda49409f43a99aa2cafd4
+  - enabled: 1
+    path: Assets/Scenes/ShopScene.unity
+    guid: b205988a42b81694785ad19a5c1466ea
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

@@ -27,6 +27,6 @@ MonoBehaviour:
   CurveRate: 0
   CurveVariance: 0
   FireEffect:
-    VFX: {fileID: 0}
+    VFX: {fileID: 752166607542807408, guid: b5d3503eb4b847d47902a42bb0031ce2, type: 3}
     SFX: {fileID: 0}
-    VFXLifetime: 0.25
+    VFXLifetime: 10.02
