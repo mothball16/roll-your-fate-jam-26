@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: NPCArcher
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Attacks.Types.BasicRangedAttack
   Name: n/a
-  AimType: 2
+  AimType: 1
   Cooldown: 1
-  DetectionRadius: 8
-  ProjectilePrefab: {fileID: 0}
+  DetectionRadius: 18
+  ProjectilePrefab: {fileID: 7539375552600193301, guid: 57e63accf99d8434ab44ea9304fe7230, type: 3}
   Damage: 10
   Speed: 20
   SpeedVariance: 0
@@ -26,6 +26,7 @@ MonoBehaviour:
   BurstDelay: 0
   CurveRate: 0
   CurveVariance: 0
+  LeadTarget: 1
   FireEffect:
     VFX: {fileID: 752166607542807408, guid: b5d3503eb4b847d47902a42bb0031ce2, type: 3}
     SFX: {fileID: 0}

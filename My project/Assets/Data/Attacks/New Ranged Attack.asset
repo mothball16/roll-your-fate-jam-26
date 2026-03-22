@@ -12,20 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8860ecfe697d1343ababc35f42f79d3, type: 3}
   m_Name: New Ranged Attack
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Attacks.Types.BasicRangedAttack
-  Name: n/a
+  Name: Helix
   AimType: 2
   Cooldown: 1
   DetectionRadius: 8
-  ProjectilePrefab: {fileID: 0}
+  ProjectilePrefab: {fileID: 3477019457270839844, guid: 22fdefc215c6c604f8f70f8bec7d4ed1, type: 3}
   Damage: 10
   Speed: 20
   SpeedVariance: 0
-  ProjectileCount: 1
+  ProjectileCount: 3
   SpreadAngle: 15
   Inaccuracy: 0
   BurstDelay: 0
   CurveRate: 0
   CurveVariance: 0
+  LeadTarget: 0
   FireEffect:
     VFX: {fileID: 0}
     SFX: {fileID: 0}

@@ -37,12 +37,6 @@ namespace Assets.Scripts.Agents
             }
 
             _char.SteeringForce = CalculateSteering();
-
-            // Rotate to face the moving direction
-            if (_char.Velocity.sqrMagnitude > 0.001f)
-            {
-                _char.Rotation = Quaternion.LookRotation(Vector3.forward, _char.Velocity.normalized);
-            }
         }
 
         protected Transform FindClosestTarget()

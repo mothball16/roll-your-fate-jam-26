@@ -31,7 +31,6 @@ namespace Assets.Scripts.Attacks.Types
         public override void Execute(GameObject owner, Vector3 direction, GameObject? target = null)
         {
             if (ProjectilePrefab == null || ProjectileCount <= 0) return;
-
             if (BurstDelay > 0f && ProjectileCount > 1)
             {
                 if (owner.TryGetComponent<MonoBehaviour>(out var runner))
@@ -49,7 +48,6 @@ namespace Assets.Scripts.Attacks.Types
                 var secondsToTarget = distance / Speed;
                 var newTargetPos = targetPos + controller.Velocity * secondsToTarget;
                 var newDirection = (newTargetPos - originPos).normalized;
-
                 direction = newDirection;
             }
 

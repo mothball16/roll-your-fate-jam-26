@@ -78,7 +78,31 @@ class StrafingEnemy : EnemyAgent
 
     public override void RunLogic()
     {
+
         _target = FindClosestTarget();
+        switch (_state)
+        {
+            case StrafingEnemyState.Combat:
+                if (!_target)
+                {
+                    _state = StrafingEnemyState.Wandering;
+                    break;
+                }
+                _char.LookType = LookType.Manual;
+                var dist = (_target.position - transform.position).normalized;
+                float angle = Mathf.Atan2(dist.y, dist.x) * Mathf.Rad2Deg;
+                _char.Rotation = Quaternion.Euler(0, 0, angle - 90f);
+
+                break;
+            case StrafingEnemyState.Wandering:
+                if (_target)
+                {
+                    _state = StrafingEnemyState.Combat;
+                }
+                _char.LookType = LookType.AimFront;
+
+                break;
+        }
         _state = _target != null ? StrafingEnemyState.Combat : StrafingEnemyState.Wandering;
     }
 }
