@@ -2819,11 +2819,11 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 11f51556672d0e9468533a8aa63c0acd, type: 3}
     - target: {fileID: 6228793292123329373, guid: 4b77f762fd3f39540919698fc215a6fd, type: 3}
       propertyPath: WinSceneName
-      value: TitleScene
+      value: WinScene
       objectReference: {fileID: 0}
     - target: {fileID: 6228793292123329373, guid: 4b77f762fd3f39540919698fc215a6fd, type: 3}
       propertyPath: LoseSceneName
-      value: TitleScene
+      value: LoseScene
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
