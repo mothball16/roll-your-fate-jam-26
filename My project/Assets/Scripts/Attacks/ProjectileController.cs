@@ -13,6 +13,7 @@ namespace Assets.Scripts.Attacks
         private bool _initialized;
         private Rigidbody2D _rb;
         public AttackEffect HitEffect = new();
+        public float CurveRate = 0f;
 
         public void Awake()
         {
@@ -40,6 +41,11 @@ namespace Assets.Scripts.Attacks
         {
             if (!_initialized)
                 return;
+
+            if (CurveRate != 0f)
+            {
+                _rb.linearVelocity = Quaternion.Euler(0, 0, CurveRate * Time.deltaTime) * _rb.linearVelocity;
+            }
 
             if (_rb.linearVelocity.magnitude > 0)
             {

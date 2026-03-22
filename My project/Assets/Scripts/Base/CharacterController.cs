@@ -10,6 +10,7 @@ public enum LookType
     LeftRight,
 }
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class CharacterController : MonoBehaviour
 {
     [SerializeField] protected Vector3 _acceleration;
@@ -26,16 +27,28 @@ public class CharacterController : MonoBehaviour
     public Vector3 Velocity => _velocity;
     public float MaxSpeed => _maxSpeed;
 
+    private Rigidbody2D _rb;
+
+    public virtual void Awake()
+    {
+        _rb = GetComponent<Rigidbody2D>();
+    }
+
     public virtual void Update()
+    {
+        // Intentionally left empty for child overrides.
+        // Physics calculations must be handled in FixedUpdate.
+    }
+
+    public virtual void FixedUpdate()
     {
         _acceleration = Vector3.zero;
         _acceleration += SteeringForce;
-        _velocity += _acceleration * Time.deltaTime;
+        _velocity += _acceleration * Time.fixedDeltaTime;
         _velocity = Vector3.ClampMagnitude(_velocity, _maxSpeed);
-        transform.position += _velocity * Time.deltaTime;
 
         // slowdown stuff
-        _velocity = Vector3.Lerp(_velocity, Vector3.zero, Time.deltaTime * _damping);
+        _velocity = Vector3.Lerp(_velocity, Vector3.zero, Time.fixedDeltaTime * _damping);
         if (_velocity.magnitude < 0.01)
         {
             _velocity = Vector3.zero;
@@ -68,9 +81,9 @@ public class CharacterController : MonoBehaviour
                 throw new NotImplementedException();
         }
 
-        transform.rotation = Rotation;
+        _rb.linearVelocity = _velocity; 
+        _rb.MoveRotation(Rotation.eulerAngles.z);
     }
-
     protected virtual Vector3 GetSteerForce(IBehavior behavior, float weight = 1)
     {
         return _snappiness * weight * behavior.GetVelocity(this, Time.deltaTime);

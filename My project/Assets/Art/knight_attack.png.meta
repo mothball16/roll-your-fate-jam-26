@@ -1,28 +1,28 @@
 fileFormatVersion: 2
-guid: 6f131255407a66b41a4fdaf64f3facf8
+guid: 7d4b93e28dfb7a347bd6cdb790fcfe68
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8965517027233988071
-    second: knight_attack_0
+      213: 8585207526375117334
+    second: knight_attack 1_0
   - first:
-      213: 8181697063854847163
-    second: knight_attack_1
+      213: 4616086858274253022
+    second: knight_attack 1_1
   - first:
-      213: 3353338807156767379
-    second: knight_attack_2
+      213: 5716085615838782192
+    second: knight_attack 1_2
   - first:
-      213: 3936866355113398439
-    second: knight_attack_3
+      213: 4624561365315946342
+    second: knight_attack 1_3
   - first:
-      213: -7760081135962743928
-    second: knight_attack_4
+      213: -6667896271795915890
+    second: knight_attack 1_4
   - first:
-      213: -1549043752508705037
-    second: knight_attack_5
+      213: -4151548998614201040
+    second: knight_attack 1_5
   - first:
-      213: 412852236618860352
-    second: knight_attack_6
+      213: -6979189806065782389
+    second: knight_attack 1_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -131,13 +131,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: knight_attack_0
+      name: knight_attack 1_0
       rect:
         serializedVersion: 2
-        x: 82
-        y: 971
-        width: 562
-        height: 697
+        x: 57
+        y: 1169
+        width: 381
+        height: 496
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7ed7ff32c3aeb6c70800000000000000
-      internalID: 8965517027233988071
+      spriteID: 612599442c8c42770800000000000000
+      internalID: 8585207526375117334
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_1
+      name: knight_attack 1_1
       rect:
         serializedVersion: 2
-        x: 640
-        y: 1069
-        width: 645
-        height: 598
+        x: 609
+        y: 1233
+        width: 437
+        height: 420
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,20 +168,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bb4bcee812a3b8170800000000000000
-      internalID: 8181697063854847163
+      spriteID: ed829cf5a82af0040800000000000000
+      internalID: 4616086858274253022
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_2
+      name: knight_attack 1_2
       rect:
         serializedVersion: 2
-        x: 1282
-        y: 1115
-        width: 37
-        height: 204
+        x: 1304
+        y: 1272
+        width: 35
+        height: 151
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,20 +190,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 39a7c1cd0e3798e20800000000000000
-      internalID: 3353338807156767379
+      spriteID: 0f26acd159d935f40800000000000000
+      internalID: 5716085615838782192
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_3
+      name: knight_attack 1_3
       rect:
         serializedVersion: 2
-        x: 1292
-        y: 847
-        width: 509
-        height: 797
+        x: 1310
+        y: 1084
+        width: 347
+        height: 562
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -212,20 +212,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7a098b0771f82a630800000000000000
-      internalID: 3936866355113398439
+      spriteID: 66707ad4f0ebd2040800000000000000
+      internalID: 4624561365315946342
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_4
+      name: knight_attack 1_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 106
-        width: 392
-        height: 254
+        x: 160
+        y: 543
+        width: 270
+        height: 183
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,20 +234,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 88b1bbe4257ae4490800000000000000
-      internalID: -7760081135962743928
+      spriteID: e83f3783bafd673a0800000000000000
+      internalID: -6667896271795915890
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_5
+      name: knight_attack 1_5
       rect:
         serializedVersion: 2
-        x: 73
-        y: 139
-        width: 568
-        height: 690
+        x: 211
+        y: 568
+        width: 387
+        height: 488
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,20 +256,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3f63e2e0ae0b08ae0800000000000000
-      internalID: -1549043752508705037
+      spriteID: 03dc8fd7e2cb266c0800000000000000
+      internalID: -4151548998614201040
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: knight_attack_6
+      name: knight_attack 1_6
       rect:
         serializedVersion: 2
-        x: 637
-        y: 0
-        width: 399
-        height: 829
+        x: 811
+        y: 493
+        width: 271
+        height: 586
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -278,8 +278,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 047846cfbeebab500800000000000000
-      internalID: 412852236618860352
+      spriteID: b81fb6549dfe42f90800000000000000
+      internalID: -6979189806065782389
       vertices: []
       indices: 
       edges: []
@@ -298,13 +298,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      knight_attack_0: 8965517027233988071
-      knight_attack_1: 8181697063854847163
-      knight_attack_2: 3353338807156767379
-      knight_attack_3: 3936866355113398439
-      knight_attack_4: -7760081135962743928
-      knight_attack_5: -1549043752508705037
-      knight_attack_6: 412852236618860352
+      knight_attack 1_0: 8585207526375117334
+      knight_attack 1_1: 4616086858274253022
+      knight_attack 1_2: 5716085615838782192
+      knight_attack 1_3: 4624561365315946342
+      knight_attack 1_4: -6667896271795915890
+      knight_attack 1_5: -4151548998614201040
+      knight_attack 1_6: -6979189806065782389
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

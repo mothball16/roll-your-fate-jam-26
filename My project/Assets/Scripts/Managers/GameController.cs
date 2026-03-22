@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
         charManager = CharManager.Instance;
         var player = charManager.SpawnChar(CharType.Player, Vector2.zero);
         charManager.SpawnChar(CharType.Barbarian, new(0, 5));
+        charManager.SpawnChar(CharType.Archer, new(0, -5));
         var cameraFollow = Camera.main.GetComponent<CameraFollow>();
         cameraFollow.player = player.transform;
     }

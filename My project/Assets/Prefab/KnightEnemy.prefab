@@ -10,11 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1271383976723353151}
   - component: {fileID: 744463542195296092}
-  - component: {fileID: 5624584312553441867}
   - component: {fileID: 6549376284702444448}
   - component: {fileID: 6662887914713920854}
   - component: {fileID: 4369202742030457089}
-  - component: {fileID: 4446066248823163780}
+  - component: {fileID: 8756019232941926706}
+  - component: {fileID: -8962272505575414994}
+  - component: {fileID: 5567498153362749446}
+  - component: {fileID: 3892294447240553121}
   m_Layer: 0
   m_Name: KnightEnemy
   m_TagString: Untagged
@@ -58,52 +60,6 @@ MonoBehaviour:
   SteeringForce: {x: 0, y: 0, z: 0}
   LookType: 1
   Rotation: {x: 0, y: 0, z: 0, w: 1}
---- !u!61 &5624584312553441867
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2019556764510047957}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
-    newSize: {x: 0.32, y: 0.32}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &6549376284702444448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116,6 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 358730b7c6c81c245a7a30f7d4be0f23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Attacks.AutoAttacker
+  DetectionRadius: 15
   Attacks:
   - AttackDef: {fileID: 11400000, guid: c5b467b6e09e27d468eaebe966f5461f, type: 2}
     CurCooldown: 0
@@ -148,8 +105,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Components.Humanoid
   Health: 100
   MaxHealth: 100
---- !u!61 &4446066248823163780
-BoxCollider2D:
+--- !u!58 &8756019232941926706
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -178,22 +135,68 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.5
+--- !u!50 &-8962272505575414994
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019556764510047957}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &5567498153362749446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019556764510047957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e66672b61b575ce47bce0703cb44c6be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SeekerEnemy
+  TargetRefreshRate: 0.5
+  TargetTeam: 0
+  _state: 0
+--- !u!114 &3892294447240553121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019556764510047957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 358730b7c6c81c245a7a30f7d4be0f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Attacks.AutoAttacker
+  DetectionRadius: 15
+  Attacks: []
 --- !u!1 &5249170564514397721
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,13 +222,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5249170564514397721}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09577761, y: -0, z: -0.9954028, w: 0}
-  m_LocalPosition: {x: 0.117, y: -0.066, z: 0.054}
-  m_LocalScale: {x: 0.14181359, y: 0.13880923, z: 5.5343}
+  m_LocalRotation: {x: 0, y: 0, z: -1, w: 0}
+  m_LocalPosition: {x: 0.189, y: -0.066, z: 0.068}
+  m_LocalScale: {x: 0.20714737, y: 0.20275891, z: 8.083962}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1271383976723353151}
-  m_LocalEulerAnglesHint: {x: 0, y: -10.992, z: -180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180}
 --- !u!212 &4414033947500383290
 SpriteRenderer:
   serializedVersion: 2
@@ -275,12 +278,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 8965517027233988071, guid: 6f131255407a66b41a4fdaf64f3facf8, type: 3}
+  m_Sprite: {fileID: 8585207526375117334, guid: 7d4b93e28dfb7a347bd6cdb790fcfe68, type: 3}
   m_Color: {r: 1, g: 0.504717, b: 0.504717, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 16, y: 8.06}
+  m_Size: {x: 3.81, y: 4.961417}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

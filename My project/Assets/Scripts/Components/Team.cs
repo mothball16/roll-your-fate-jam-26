@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Assets.Scripts.Components
 {
-    enum TeamType
+    public enum TeamType
     {
         Player,
         Enemy,
         None
     }
-    internal class Team : MonoBehaviour
+    public class Team : MonoBehaviour
     {
         public TeamType team;
     }
