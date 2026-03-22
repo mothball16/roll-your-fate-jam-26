@@ -90,8 +90,7 @@ class StrafingEnemy : EnemyAgent
                 }
                 _char.LookType = LookType.Manual;
                 var dist = (_target.position - transform.position).normalized;
-                float angle = Mathf.Atan2(dist.y, dist.x) * Mathf.Rad2Deg;
-                _char.Rotation = Quaternion.Euler(0, 0, angle - 90f);
+                _char.Rotation = Quaternion.LookRotation(dist);
 
                 break;
             case StrafingEnemyState.Wandering:

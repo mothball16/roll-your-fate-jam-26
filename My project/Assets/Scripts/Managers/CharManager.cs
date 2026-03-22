@@ -12,8 +12,12 @@ namespace Assets.Scripts.Managers
     {
         Player,
         Skeleton,
-        Barbarian,
-        Archer
+        Orc,
+        Archer,
+
+        KnifeGuy,
+        ShieldGuy,
+        GunGuy
     }
 
     [Serializable]

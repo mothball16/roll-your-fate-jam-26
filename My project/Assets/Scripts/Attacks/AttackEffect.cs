@@ -7,7 +7,7 @@ namespace Assets.Scripts.Attacks
     [Serializable]
     public class AttackEffect
     {
-        public GameObject VFX;
+        public GameObject? VFX;
         public AudioClip? SFX;
         public float VFXLifetime = 0.25f;
 

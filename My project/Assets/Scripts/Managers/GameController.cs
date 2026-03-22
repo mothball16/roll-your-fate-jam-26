@@ -1,34 +1,159 @@
+using Assets.Scripts.Attacks;
+using Assets.Scripts.Components;
 using Assets.Scripts.Managers;
 using DangryGames;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
+public enum BattleState
+{
+    LevelSetup,
+    LevelActive,
+    LevelIntermission,
+    
+}
 public class GameController : MonoBehaviour
 {
-    public int level;
-    public int health;
-    public int bulletDamage;
-    public int meleeDamage;
-    public int bulletCount;
-    public int coinCount;
-    public float speedFactor;
+    public BattleState currentState = BattleState.LevelSetup;
+    public Level Level = Level.Placeholder;
+    public GameObject Player;
 
-    public int healthTier = 0;
-    public int bulletTier = 0;
-    public int meleeTier = 0;
-    public int bulletCountTier = 0;
-    public int speedTier = 0;
+    public int XPLevel;
+    public float XP;
+    static public int[] XPReqs = new int[] { 5, 10, 20, 30, 40, 50, 60, 70, 80, 100};
 
+    [Header("Scenes")]
+    public string WinSceneName = "WinScene";
+    public string LoseSceneName = "LoseScene";
+
+    private LevelManager levelManager;
     private CharManager charManager;
+    private GameUIManager uiManager;
+
+    public List<UpgradeData> bought;
+
     public void Start()
     {
+        bought = new();
+        // get refs
+        levelManager = LevelManager.Instance;
         charManager = CharManager.Instance;
-        var player = charManager.SpawnChar(CharType.Player, Vector2.zero);
-        charManager.SpawnChar(CharType.Barbarian, new(0, 5));
-        charManager.SpawnChar(CharType.Archer, new(0, -5));
+        uiManager = GameUIManager.Instance;
+        uiManager.ShopExitCallback = FinishShop;
+
+        // setup shit
+        Player = charManager.SpawnChar(CharType.Player, Vector2.zero);
         var cameraFollow = Camera.main.GetComponent<CameraFollow>();
-        cameraFollow.player = player.transform;
+        cameraFollow.player = Player.transform;
+
+        uiManager.SetPlayer(Player);
+
+        if (Player.TryGetComponent<Humanoid>(out var playerHumanoid))
+        {
+            playerHumanoid.OnDeath += LoseGame;
+        }
     }
 
+    public void AddXP(int add)
+    {
+        XP += add;
+        Player.GetComponent<Humanoid>().TakeDamage(-add);
+        if (XP >= XPReqs[XPLevel])
+        {
+            XP = 0;
+            XPLevel = Mathf.Min(XPLevel+1, XPReqs.Length - 1);
+
+            OpenShop();
+        }
+    }
+    private void OpenShop()
+    {
+        Time.timeScale = 0.1f;
+        var upgrades = levelManager.GetRandomUpgradesForLevel(Level);
+        uiManager.OpenShopUI(bought, upgrades);
+    }
+
+    public void FinishShop(UpgradeData upgrade)
+    {
+        if (upgrade != null)
+            ApplyUpgrade(upgrade);
+        Time.timeScale = 1f;
+    }
+
+
+
+    public void ApplyUpgrade(UpgradeData upgrade)
+    {
+        if (!Player.TryGetComponent<CharacterController>(out var charController))
+        {
+            Debug.LogWarning("no charcontroller in player");
+            return;
+        }
+        if (!Player.TryGetComponent<Humanoid>(out var humanoid))
+        {
+            Debug.LogWarning("no humanoid in player");
+            return;
+        }
+        if (!Player.TryGetComponent<AutoAttacker>(out var attacker))
+        {
+            Debug.LogWarning("no autoattacker in player");
+            return;
+        }
+        humanoid.MaxHealth += upgrade.MaxHealthBoost;
+        humanoid.TakeDamage(-upgrade.HealthBoost);
+
+        charController.SetMaxSpeed(charController.MaxSpeed + upgrade.SpeedBoost);
+
+        if (upgrade.GiveAttack)
+        {
+            var newAttack = new AttackState
+            {
+                AttackDef = upgrade.GiveAttack,
+                CurCooldown = upgrade.GiveAttack.Cooldown
+            };
+            attacker.Attacks.Add(newAttack);
+        }
+
+        bought.Add(upgrade);
+    }
+
+    public void WinGame()
+    {
+        Time.timeScale = 1f; // Reset timescale just in case we win while paused
+        SceneManager.LoadScene(WinSceneName);
+    }
+
+    public void LoseGame()
+    {
+        Time.timeScale = 1f; // Reset timescale just in case
+        SceneManager.LoadScene(LoseSceneName);
+    }
+
+    public void Update()
+    {
+        switch (currentState)
+        {
+            case BattleState.LevelActive:
+                bool wonLevel = levelManager.HandleLevelLogic();
+                if (wonLevel)
+                    currentState = BattleState.LevelIntermission;
+                break;
+            case BattleState.LevelIntermission:
+                currentState = BattleState.LevelSetup;
+                break;
+            case BattleState.LevelSetup:
+                int nextLevelIndex = (int)Level + 1;
+                if (!System.Enum.IsDefined(typeof(Level), nextLevelIndex))
+                    WinGame();
+                else
+                    Level = (Level)nextLevelIndex;
+
+                levelManager.PrepareLevel(Level);
+                currentState = BattleState.LevelActive;
+                break;
+        }
+    }
 
 }

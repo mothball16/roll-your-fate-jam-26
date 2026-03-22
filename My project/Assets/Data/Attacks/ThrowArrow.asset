@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8860ecfe697d1343ababc35f42f79d3, type: 3}
+  m_Name: ThrowArrow
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Attacks.Types.BasicRangedAttack
+  Name: n/a
+  AimType: 1
+  Cooldown: 1.5
+  DetectionRadius: 8
+  ProjectilePrefab: {fileID: 7539375552600193301, guid: 57e63accf99d8434ab44ea9304fe7230, type: 3}
+  Damage: 15
+  Speed: 10
+  SpeedVariance: 0
+  ProjectileCount: 3
+  SpreadAngle: 15
+  Inaccuracy: 20
+  BurstDelay: 0
+  CurveRate: 0
+  CurveVariance: 30
+  LeadTarget: 1
+  FireEffect:
+    VFX: {fileID: 752166607542807408, guid: b5d3503eb4b847d47902a42bb0031ce2, type: 3}
+    SFX: {fileID: 8300000, guid: 2f66291a4ecc0af4ab517e77231ce335, type: 3}
+    VFXLifetime: 10.02
+  AttackFrames: []
+  AttackAnimFps: 8

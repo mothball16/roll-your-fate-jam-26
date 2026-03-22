@@ -22,12 +22,18 @@ MonoBehaviour:
   SpeedVariance: 0
   ProjectileCount: 1
   SpreadAngle: 15
-  Inaccuracy: 0
+  Inaccuracy: 10
   BurstDelay: 0
   CurveRate: 0
-  CurveVariance: 0
+  CurveVariance: 15
   LeadTarget: 1
   FireEffect:
     VFX: {fileID: 752166607542807408, guid: b5d3503eb4b847d47902a42bb0031ce2, type: 3}
-    SFX: {fileID: 0}
+    SFX: {fileID: 8300000, guid: 2f66291a4ecc0af4ab517e77231ce335, type: 3}
     VFXLifetime: 10.02
+  AttackFrames:
+  - {fileID: 8275131968050880530, guid: f071cab97d7c93a4aa1852a179850d40, type: 3}
+  - {fileID: -204642470733676312, guid: f071cab97d7c93a4aa1852a179850d40, type: 3}
+  - {fileID: -1768434277401092825, guid: f071cab97d7c93a4aa1852a179850d40, type: 3}
+  - {fileID: -4884215745922193768, guid: f071cab97d7c93a4aa1852a179850d40, type: 3}
+  AttackAnimFps: 8

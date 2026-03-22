@@ -1,4 +1,4 @@
-﻿#nullable enable
+﻿﻿#nullable enable
 using Assets;
 using System;
 using System.Collections;
@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
+using Assets.Scripts.Utility;
 
 namespace Assets.Scripts.Attacks.Types
 {
@@ -28,9 +29,19 @@ namespace Assets.Scripts.Attacks.Types
         
         public AttackEffect FireEffect = new AttackEffect();
 
+        [Header("Animation")]
+        public Sprite[] AttackFrames;
+        public float AttackAnimFps = 12f;
+
         public override void Execute(GameObject owner, Vector3 direction, GameObject? target = null)
         {
             if (ProjectilePrefab == null || ProjectileCount <= 0) return;
+
+            if (AttackFrames != null && AttackFrames.Length > 0 && owner.TryGetComponent<SimpleSpriteAnimator>(out var animator))
+            {
+                animator.PlayOverride(AttackFrames, AttackAnimFps);
+            }
+
             if (BurstDelay > 0f && ProjectileCount > 1)
             {
                 if (owner.TryGetComponent<MonoBehaviour>(out var runner))

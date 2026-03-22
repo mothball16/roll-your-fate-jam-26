@@ -29,6 +29,11 @@ public class CharacterController : MonoBehaviour
 
     private Rigidbody2D _rb;
 
+    public void SetMaxSpeed(float newSpeed)
+    {
+        _maxSpeed = newSpeed;
+    }
+
     public virtual void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();

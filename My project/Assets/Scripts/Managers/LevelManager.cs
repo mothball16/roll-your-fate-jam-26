@@ -1,159 +1,130 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Components;
 using Assets.Scripts.Managers;
-using Assets.Scripts.Components;
+using DangryGames;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.WSA;
 
-public enum LevelState
+
+
+public enum Level
 {
-    LevelActive,
-    ShopMenu,
-    LevelTransition
+    Placeholder,
+    LevelOne,
+    LevelTwo,
+    LevelThree
 }
 
-public class LevelManager : MonoBehaviour
+[Serializable]
+public struct LevelSpawnPoints
 {
-    public LevelState currentState;
+    public Level Level;
+    public Transform Folder;
+}
 
-    [Header("Level Settings")]
-    public int currentLevel = 1;
-    private int enemiesRemainingInLevel;
-    private int enemiesCurrentlyActive;
+[Serializable]
+public struct EnemySpawnDef
+{
+    public CharType EnemyType;
+    public float SpawnWeight;
+}
 
-    [Header("Spawner Config")]
-    public Transform folder;
-    [SerializeField] private float baseSpawnInterval = 2f;
-    [SerializeField] private int baseMaxOnScreen = 5;
+public class LevelManager : MonoSingleton<LevelManager>
+{
 
-    [Header("Enemy Type")]
-    public CharType enemyType = CharType.Skeleton;
+    [Header("References")]
+    public GameController gameController; 
+    public List<LevelSpawnPoints> SpawnPoints;
+    public List<LevelData> LevelsData;
 
-    private float spawnInterval;
-    private int maxOnScreen;
+    private readonly Dictionary<Level, Transform[]> _spawnPoints = new();
+    [SerializeField]
+    private float _spawnTimer;
 
-    private Transform[] spawnPoints;
-    private float spawnTimer;
+    [SerializeField]
+    private float _spawnInterval;
+    [SerializeField]
+    private int _enemiesCurrentlyActive;
+    [SerializeField]
+    private int _enemiesRemainingInLevel;
+    [SerializeField]
+    private int _maxOnScreen;
+
+    public int EnemiesLeft => _enemiesRemainingInLevel + _enemiesCurrentlyActive;
+
+    private Level curLevel => gameController.Level;
 
     void Start()
     {
+        if (gameController == null)
+        {
+            gameController = FindObjectsByType<GameController>().First();
+        }
+
         CacheSpawnPoints();
-        TransitionToState(LevelState.LevelActive);
     }
 
-    void Update()
+    public bool HandleLevelLogic()
     {
-        if (currentState == LevelState.LevelActive)
+        _spawnTimer += Time.deltaTime;
+
+        if (_spawnTimer >= _spawnInterval &&
+            _enemiesCurrentlyActive < _maxOnScreen &&
+            _enemiesRemainingInLevel > 0)
         {
-            HandleLevelLogic();
-        }
-    }
-
-    // ==============================
-    // STATE MANAGEMENT
-    // ==============================
-
-    public void TransitionToState(LevelState newState)
-    {
-        currentState = newState;
-
-        switch (newState)
-        {
-            case LevelState.LevelActive:
-                PrepareLevel();
-                break;
-
-            case LevelState.ShopMenu:
-                OpenShopUI();
-                break;
-
-            case LevelState.LevelTransition:
-                StartNextLevel();
-                break;
-        }
-    }
-
-    // ==============================
-    // LEVEL LOGIC
-    // ==============================
-
-    private void HandleLevelLogic()
-    {
-        spawnTimer += Time.deltaTime;
-
-        if (spawnTimer >= spawnInterval &&
-            enemiesCurrentlyActive < maxOnScreen &&
-            enemiesRemainingInLevel > 0)
-        {
-            SpawnEnemy();
-            spawnTimer -= spawnInterval;
+            SpawnEnemy(curLevel);
+            _spawnTimer -= _spawnInterval;
         }
 
         // Win condition
-        if (enemiesRemainingInLevel <= 0 && enemiesCurrentlyActive <= 0)
+        if (_enemiesRemainingInLevel <= 0 && _enemiesCurrentlyActive <= 0)
         {
-            TransitionToState(LevelState.ShopMenu);
+            return true;
         }
+        return false;
     }
 
-    private void PrepareLevel()
+    public void PrepareLevel(Level level)
     {
-        enemiesRemainingInLevel = 1; // scalable
-        enemiesCurrentlyActive = 0;
+        LevelData currentData = GetLevelData(level);
+        if (currentData == null) return;
 
-        spawnInterval = Mathf.Max(0.5f, baseSpawnInterval - currentLevel * 0.1f);
-        maxOnScreen = baseMaxOnScreen + currentLevel;
+        _enemiesRemainingInLevel = currentData.TotalEnemies;
+        _enemiesCurrentlyActive = 0;
 
-        spawnTimer = spawnInterval; // spawn immediately
+        _spawnInterval = currentData.SpawnInterval;
+        _maxOnScreen = currentData.MaxOnScreen;
 
+        _spawnTimer = _spawnInterval;
 
-        Debug.Log($"--- Level {currentLevel} Started ---");
+        Debug.Log($"--- Level {level} Started ---");
     }
 
-    private void OpenShopUI()
+
+
+    void SpawnEnemy(Level level)
     {
-        DestroyPlayer();
-        SceneManager.LoadScene("ShopScene", LoadSceneMode.Additive);
-        Time.timeScale = 0f; // pause gameplay
-        Debug.Log("Opening Shop Scene...");
-    }
+        var spawnsInLevel = _spawnPoints[level];
+        Transform rp = spawnsInLevel[UnityEngine.Random.Range(0, spawnsInLevel.Length)];
 
-    public void FinishShopping()
-    {
-        Debug.Log("Closing Shop Scene...");
-
-        SceneManager.UnloadSceneAsync("ShopScene");
-        Time.timeScale = 1f;
-
-        TransitionToState(LevelState.LevelTransition);
-    }
-    private void StartNextLevel()
-    {
-        currentLevel++;
-        TransitionToState(LevelState.LevelActive);
-    }
-
-    // ==============================
-    // SPAWNING (CHAR MANAGER)
-    // ==============================
-
-    void SpawnEnemy()
-    {
-        Transform rp = spawnPoints[Random.Range(0, spawnPoints.Length)];
-
-        GameObject enemy = CharManager.Instance.SpawnChar(enemyType, rp.position);
+        CharType typeToSpawn = GetRandomEnemyTypeForLevel(level);
+        GameObject enemy = CharManager.Instance.SpawnChar(typeToSpawn, rp.position);
 
         if (enemy == null) return;
 
-        enemiesRemainingInLevel--; // ✅ correct
-        enemiesCurrentlyActive++;
+        _enemiesRemainingInLevel--;
+        _enemiesCurrentlyActive++;
 
-        // Hook death event
-        Humanoid humanoid = enemy.GetComponent<Humanoid>();
-
-        if (humanoid != null)
+        
+        if (enemy.TryGetComponent<Humanoid>(out var humanoid))
         {
             humanoid.OnDeath += () =>
             {
-                enemiesCurrentlyActive = Mathf.Max(0, enemiesCurrentlyActive - 1);
+                gameController.AddXP(humanoid.XPOnDeath);
+                _enemiesCurrentlyActive = Mathf.Max(0, _enemiesCurrentlyActive - 1);
             };
         }
     }
@@ -162,27 +133,69 @@ public class LevelManager : MonoBehaviour
     // HELPERS
     // ==============================
 
+    public CharType GetRandomEnemyTypeForLevel(Level level)
+    {
+        LevelData data = GetLevelData(level);
+        if (data == null || data.EnemySpawns == null || data.EnemySpawns.Count == 0)
+            return CharType.Orc; // Fallback
+
+        float totalWeight = data.EnemySpawns.Sum(x => x.SpawnWeight);
+        float randomValue = UnityEngine.Random.Range(0, totalWeight);
+        float currentWeight = 0f;
+
+        foreach (var spawnDef in data.EnemySpawns)
+        {
+            currentWeight += spawnDef.SpawnWeight;
+            if (randomValue <= currentWeight)
+            {
+                return spawnDef.EnemyType;
+            }
+        }
+
+        return data.EnemySpawns.Last().EnemyType;
+    }
+
+    public List<UpgradeData> GetRandomUpgradesForLevel(Level level)
+    {
+        LevelData data = GetLevelData(level);
+        List<UpgradeData> upgrades = new();
+        for (int i = 0; i < 3; i++)
+        {
+
+            float totalWeight = data.Upgrades.Sum(x => x.Weight);
+            float randomValue = UnityEngine.Random.Range(0, totalWeight);
+            float currentWeight = 0f;
+
+            foreach (var spawnDef in data.Upgrades)
+            {
+                currentWeight += spawnDef.Weight;
+                if (randomValue <= currentWeight && !upgrades.Contains(spawnDef.Upgrade))
+                {
+                    upgrades.Add(spawnDef.Upgrade);
+                }
+            }
+        }
+        return upgrades;
+    }
+
+    private LevelData GetLevelData(Level level)
+    {
+        return LevelsData.FirstOrDefault(x => x.LevelIdentifier == level);
+    }
+
+
     void CacheSpawnPoints()
     {
-        spawnPoints = new Transform[folder.childCount];
+        foreach(var LevelSpawnPoints in SpawnPoints)
+        {
+            var level = LevelSpawnPoints.Level;
+            var folder = LevelSpawnPoints.Folder;
+            _spawnPoints[level] = new Transform[folder.childCount];
+            for (int i = 0; i < folder.childCount; i++)
+            {
+                _spawnPoints[level][i] = folder.GetChild(i);
+            }
+        }
 
-        for (int i = 0; i < folder.childCount; i++)
-        {
-            spawnPoints[i] = folder.GetChild(i);
-        }
-    }
-    void DestroyPlayer()
-    {
-        // Find player via CharManager tracking OR tag
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-        if (player != null)
-        {
-            CharManager.Instance.DestroyChar(player);
-        }
-        else
-        {
-            Debug.LogWarning("Player not found!");
-        }
     }
 }

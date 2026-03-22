@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5e596e04499946429860d7610ad6313, type: 3}
+  m_Name: Fireball
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeData
+  Title: Fireball!
+  Description: Sir Knight does his best cosplay impression of a Sir Mage.
+  MaxHealthBoost: 0
+  HealthBoost: 20
+  SpeedBoost: 0
+  GiveAttack: {fileID: 11400000, guid: 744c213d9ce59b0418a8aa2d999c4201, type: 2}

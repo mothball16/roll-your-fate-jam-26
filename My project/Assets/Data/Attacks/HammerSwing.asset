@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e76b56fb253724b878bf8f0d29e109, type: 3}
+  m_Name: HammerSwing
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.Attacks.Types.SwordAttack
+  Name: Hammer
+  AimType: 2
+  Cooldown: 0.5
+  DetectionRadius: 3
+  Damage: 30
+  Range: 4
+  AttackArcAngle: 200
+  TargetLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  Effect:
+    VFX: {fileID: 0}
+    SFX: {fileID: 8300000, guid: 2986d52994549b14482f4f509cdba7e6, type: 3}
+    VFXLifetime: 0.25
+  AttackFrames:
+  - {fileID: 2140419868, guid: 38230e0269b0c974cadbf7e76dfd6118, type: 3}
+  - {fileID: -903677490, guid: 38230e0269b0c974cadbf7e76dfd6118, type: 3}
+  - {fileID: 689322981, guid: 38230e0269b0c974cadbf7e76dfd6118, type: 3}
+  - {fileID: -710198945, guid: 38230e0269b0c974cadbf7e76dfd6118, type: 3}
+  AttackAnimFps: 10
