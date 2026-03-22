@@ -16,7 +16,7 @@ namespace DangryGames
                 if (_instance == null)
                 {
                     _instance = FindAnyObjectByType<T>();
-                    if (_instance != null)
+                    if (_instance == null)
                     {
                         GameObject go = new GameObject();
                         go.name = typeof(T).Name;
