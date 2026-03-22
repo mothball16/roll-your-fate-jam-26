@@ -29,7 +29,7 @@ MonoBehaviour:
   LeadTarget: 0
   FireEffect:
     VFX: {fileID: 0}
-    SFX: {fileID: 0}
+    SFX: {fileID: 8300000, guid: fd094824e49ebfc41b06a9d2f3d178d9, type: 3}
     VFXLifetime: 0.25
   AttackFrames: []
   AttackAnimFps: 12
