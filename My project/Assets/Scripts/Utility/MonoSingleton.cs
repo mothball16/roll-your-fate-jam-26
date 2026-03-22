@@ -37,7 +37,7 @@ namespace DangryGames
                     DontDestroyOnLoad(gameObject);
                 }
             }
-            else if (_wantToDestroyOnLoad)
+            else if (_instance != this)
             {
                 Destroy(gameObject);
             }

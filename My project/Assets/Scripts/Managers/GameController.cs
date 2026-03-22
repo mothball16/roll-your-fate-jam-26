@@ -5,7 +5,6 @@ using DangryGames;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 
 public enum BattleState
@@ -62,7 +61,8 @@ public class GameController : MonoBehaviour
     public void AddXP(int add)
     {
         XP += add;
-        Player.GetComponent<Humanoid>().TakeDamage(-add);
+        if (Player != null)
+            Player.GetComponent<Humanoid>().TakeDamage(-add);
         if (XP >= XPReqs[XPLevel])
         {
             XP = 0;
@@ -125,13 +125,13 @@ public class GameController : MonoBehaviour
     public void WinGame()
     {
         Time.timeScale = 1f; // Reset timescale just in case we win while paused
-        SceneManager.LoadScene(WinSceneName);
+        SceneManager.LoadSceneAsync(WinSceneName);
     }
 
     public void LoseGame()
     {
         Time.timeScale = 1f; // Reset timescale just in case
-        SceneManager.LoadScene(LoseSceneName);
+        SceneManager.LoadSceneAsync(LoseSceneName);
     }
 
     public void Update()
