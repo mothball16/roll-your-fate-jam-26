@@ -26,6 +26,7 @@ namespace Assets.Scripts.Managers
         public TMP_Text UpgradesText;
         public TMP_Text XPText;
         public TMP_Text EnemiesLeftText;
+        public Image healthBar;
 
         private Humanoid _playerHumanoid;
         private GameController _gameController;
@@ -96,8 +97,13 @@ namespace Assets.Scripts.Managers
         {
             if (_playerHumanoid != null && HealthText != null)
             {
-                // Note: Change 'Health' to whatever your current health property is called in Humanoid (e.g. CurHealth)
                 HealthText.text = $"Health: {_playerHumanoid.Health} / {_playerHumanoid.MaxHealth}";
+
+                if (healthBar != null)
+                {
+                    float percent = _playerHumanoid.Health / _playerHumanoid.MaxHealth;
+                    healthBar.fillAmount = percent;
+                }
             }
 
             if (_gameController != null && XPText != null)
