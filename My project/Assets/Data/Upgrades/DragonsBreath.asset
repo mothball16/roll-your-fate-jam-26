@@ -19,3 +19,4 @@ MonoBehaviour:
   HealthBoost: 20
   SpeedBoost: 0
   GiveAttack: {fileID: 11400000, guid: f3e4e034816a2c245b4a089021bc7b36, type: 2}
+  Icon: {fileID: -765150924802650856, guid: 284b6922b11138146bebb440ec43f640, type: 3}

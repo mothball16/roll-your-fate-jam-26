@@ -9,6 +9,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 namespace Assets.Scripts.Managers
 {
     class GameUIManager : MonoSingleton<GameUIManager>
@@ -22,11 +24,18 @@ namespace Assets.Scripts.Managers
         public GameObject GameUIPanel;
         
         [Header("HUD")]
-        public TMP_Text HealthText;
         public TMP_Text UpgradesText;
-        public TMP_Text XPText;
         public TMP_Text EnemiesLeftText;
         public Image healthBar;
+        public Image XPbar;
+        public Transform upgradesContainer; 
+        public GameObject upgradeIconPrefab;
+
+        [Header("Smootihng")]
+        float currentHealthPercent;
+        float currentXPPercent;
+        public float smoothSpeed = 5f;
+
 
         private Humanoid _playerHumanoid;
         private GameController _gameController;
@@ -95,37 +104,72 @@ namespace Assets.Scripts.Managers
 
         public void Update()
         {
-            if (_playerHumanoid != null && HealthText != null)
+            if (_playerHumanoid != null && healthBar != null)
             {
-                HealthText.text = $"Health: {_playerHumanoid.Health} / {_playerHumanoid.MaxHealth}";
+                float targetHealth = (float)_playerHumanoid.Health / _playerHumanoid.MaxHealth;
 
-                if (healthBar != null)
-                {
-                    float percent = _playerHumanoid.Health / _playerHumanoid.MaxHealth;
-                    healthBar.fillAmount = percent;
-                }
+                currentHealthPercent = Mathf.Lerp(currentHealthPercent, targetHealth, Time.deltaTime * smoothSpeed);
+
+                healthBar.fillAmount = currentHealthPercent;
             }
 
-            if (_gameController != null && XPText != null)
+            if (_gameController != null)
             {
                 int xpLevel = _gameController.XPLevel;
-                string reqStr = xpLevel < GameController.XPReqs.Length 
-                    ? GameController.XPReqs[xpLevel].ToString() 
-                    : "MAX";
-                XPText.text = $"Level: {xpLevel}  |  XP: {_gameController.XP} / {reqStr}";
 
-                if (UpgradesText != null && _gameController.bought != null)
+                if (xpLevel < GameController.XPReqs.Length)
                 {
-                    List<string> titles = new List<string>();
-                    foreach (var u in _gameController.bought) titles.Add(u.Title);
-                    UpgradesText.text = "Upgrades:\n" + string.Join("\n", titles);
+                    float requiredXP = GameController.XPReqs[xpLevel];
+                    float targetXP = _gameController.XP / requiredXP;
+
+                    currentXPPercent = Mathf.Lerp(currentXPPercent, targetXP, Time.deltaTime * smoothSpeed);
+
+                    XPbar.fillAmount = currentXPPercent;
+                }
+                else
+                {
+                    currentXPPercent = Mathf.Lerp(currentXPPercent, 1f, Time.deltaTime * smoothSpeed);
+                    XPbar.fillAmount = currentXPPercent;
+                }
+
+                if (upgradesContainer != null && _gameController.bought != null)
+                {
+                    // Clear old icons
+                    foreach (Transform child in upgradesContainer)
+                    {
+                        Destroy(child.gameObject);
+                    }
+
+                    // Create icons
+                    foreach (var u in _gameController.bought)
+                    {
+                        GameObject icon = Instantiate(upgradeIconPrefab, upgradesContainer);
+
+                        Image img = icon.GetComponent<Image>();
+                        img.sprite = u.Icon; // IMPORTANT: your upgrade needs a Sprite
+                    }
                 }
 
                 if (EnemiesLeftText != null && LevelManager.Instance != null)
                 {
-                    EnemiesLeftText.text = $"Enemies Left: {LevelManager.Instance.EnemiesLeft}";
+                    int enemies = LevelManager.Instance.EnemiesLeft;
+                    EnemiesLeftText.text = $"Enemies: {ToRoman(enemies)}";
                 }
             }
+        }
+        string ToRoman(int number)
+        {
+            if (number <= 0) return "0";
+
+            string[] thousands = { "", "M", "MM", "MMM" };
+            string[] hundreds = { "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" };
+            string[] tens = { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" };
+            string[] ones = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
+
+            return thousands[number / 1000] +
+                   hundreds[(number % 1000) / 100] +
+                   tens[(number % 100) / 10] +
+                   ones[number % 10];
         }
     }
 }
