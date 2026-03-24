@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.WSA;
 
 
 
@@ -53,6 +52,11 @@ public class LevelManager : MonoSingleton<LevelManager>
     [SerializeField]
     private int _maxOnScreen;
 
+    [SerializeField]
+    private FogGridManager fogManager;
+
+    public Transform startPoint;
+
     public int EnemiesLeft => _enemiesRemainingInLevel + _enemiesCurrentlyActive;
 
     private Level curLevel => gameController.Level;
@@ -64,7 +68,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             gameController = FindObjectsByType<GameController>().First();
         }
 
-        CacheSpawnPoints();
+
     }
 
     public bool HandleLevelLogic()
@@ -89,6 +93,21 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     public void PrepareLevel(Level level)
     {
+        if (fogManager != null)
+        {
+            // 1. CLEAR SPAWN AREA FIRST
+            if (startPoint != null)
+            {
+                fogManager.RevealTile(fogManager.FindTile(startPoint));
+            }
+
+            // 2. Reveal adjacent tiles based on progress
+            int tilesToReveal = 2;
+            for (int i = 0; i < tilesToReveal; i++)
+            {
+                fogManager.RevealRandomAdjacentTile();
+            }
+        }
         LevelData currentData = GetLevelData(level);
         if (currentData == null) return;
 
@@ -107,18 +126,46 @@ public class LevelManager : MonoSingleton<LevelManager>
 
     void SpawnEnemy(Level level)
     {
-        var spawnsInLevel = _spawnPoints[level];
-        Transform rp = spawnsInLevel[UnityEngine.Random.Range(0, spawnsInLevel.Length)];
+        // Get fog system
+        var fogManager = FindFirstObjectByType<FogGridManager>();
+        if (fogManager == null)
+        {
+            Debug.LogWarning("FogGridManager not found!");
+            return;
+        }
 
+        var revealedTiles = fogManager.GetRevealedPositions();
+        if (revealedTiles == null || revealedTiles.Count == 0)
+        {
+            Debug.LogWarning("No revealed tiles to spawn enemies!");
+            return;
+        }
+
+        // Pick a random revealed tile
+        Vector3 basePos = revealedTiles[UnityEngine.Random.Range(0, revealedTiles.Count)];
+
+        // Get tile size
+        float tileWidth = fogManager.TileWidth;
+        float tileHeight = fogManager.TileHeight;
+
+        // Add randomness inside the tile (so enemies don't stack in center)
+        float offsetX = UnityEngine.Random.Range(-tileWidth / 2f, tileWidth / 2f);
+        float offsetY = UnityEngine.Random.Range(-tileHeight / 2f, tileHeight / 2f);
+
+        Vector3 spawnPos = basePos + new Vector3(offsetX, offsetY, 0f);
+
+        // Pick enemy type (your existing logic)
         CharType typeToSpawn = GetRandomEnemyTypeForLevel(level);
-        GameObject enemy = CharManager.Instance.SpawnChar(typeToSpawn, rp.position);
 
+        // Spawn enemy
+        GameObject enemy = CharManager.Instance.SpawnChar(typeToSpawn, spawnPos);
         if (enemy == null) return;
 
+        // Update counters
         _enemiesRemainingInLevel--;
         _enemiesCurrentlyActive++;
 
-        
+        // Hook into death event (your existing logic)
         if (enemy.TryGetComponent<Humanoid>(out var humanoid))
         {
             humanoid.OnDeath += () =>
@@ -184,18 +231,4 @@ public class LevelManager : MonoSingleton<LevelManager>
     }
 
 
-    void CacheSpawnPoints()
-    {
-        foreach(var LevelSpawnPoints in SpawnPoints)
-        {
-            var level = LevelSpawnPoints.Level;
-            var folder = LevelSpawnPoints.Folder;
-            _spawnPoints[level] = new Transform[folder.childCount];
-            for (int i = 0; i < folder.childCount; i++)
-            {
-                _spawnPoints[level][i] = folder.GetChild(i);
-            }
-        }
-
-    }
 }

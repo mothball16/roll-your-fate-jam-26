@@ -24,7 +24,6 @@ namespace Assets.Scripts.Managers
         public GameObject GameUIPanel;
         
         [Header("HUD")]
-        public TMP_Text UpgradesText;
         public TMP_Text EnemiesLeftText;
         public Image healthBar;
         public Image XPbar;
