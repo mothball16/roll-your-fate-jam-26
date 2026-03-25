@@ -13,6 +13,10 @@ public class FogGridManager : MonoBehaviour
     public GameObject fogTilePrefab;
     public Transform fogParent;
 
+    [Header("Accent Layers")]
+    public int extraFogLayers = 2; // How many extra layers per tile
+    public GameObject accentFogPrefab; // Optional: If empty, it reuses fogTilePrefab
+
     [Header("Start Area")]
 
     private FogTile[,] fogTiles;
@@ -54,6 +58,13 @@ public class FogGridManager : MonoBehaviour
                 GameObject tileObj = Instantiate(fogTilePrefab, worldPos, Quaternion.identity);
 
                 SpriteRenderer tileSR = tileObj.GetComponent<SpriteRenderer>();
+
+                if (tileSR != null)
+                {
+                    Color c = tileSR.color;
+                    c.a = Random.Range(0.4f, 0.7f); // softer fog
+                    tileSR.color = c;
+                }
                 if (tileSR != null && tileSR.sprite != null)
                 {
                     float sW = tileSR.sprite.bounds.size.x;
@@ -67,6 +78,55 @@ public class FogGridManager : MonoBehaviour
 
                 if (fogParent != null) tileObj.transform.SetParent(fogParent, true);
 
+                tileObj.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
+
+                // --- NEW ACCENT LAYER LOGIC ---
+                GameObject prefabToUse = accentFogPrefab != null ? accentFogPrefab : fogTilePrefab;
+
+                for (int i = 0; i < extraFogLayers; i++)
+                {
+                    // 1. Calculate offset so it sits somewhere inside the parent tile
+                    Vector3 offset = new Vector3(
+                        Random.Range(-tileWidth * 0.3f, tileWidth * 0.3f),
+                        Random.Range(-tileHeight * 0.3f, tileHeight * 0.3f),
+                        -0.01f * (i + 1)
+                    );
+
+                    // 2. Instantiate UNPARENTED first
+                    GameObject accentObj = Instantiate(prefabToUse, worldPos + offset, Quaternion.Euler(0, 0, Random.Range(0f, 360f)));
+
+                    SpriteRenderer accentSR = accentObj.GetComponent<SpriteRenderer>();
+                    if (accentSR != null)
+                    {
+                        // Make accents softer/more transparent
+                        Color c = accentSR.color;
+                        c.a = Random.Range(0.2f, 0.4f);
+                        accentSR.color = c;
+
+                        if (accentSR.sprite != null)
+                        {
+                            float sW = accentSR.sprite.bounds.size.x;
+                            float sH = accentSR.sprite.bounds.size.y;
+
+                            // 3. Make it smaller than the parent (e.g., 30% to 70% of the tile size)
+                            float sizeMod = Random.Range(0.3f, 0.7f);
+
+                            // Set the scale while it is still in World Space
+                            accentObj.transform.localScale = new Vector3(
+                                (tileWidth / sW) * sizeMod,
+                                (tileHeight / sH) * sizeMod,
+                                1f
+                            );
+                        }
+                    }
+                
+
+                    // 4. NOW parent it. By passing 'true', Unity automatically adjusts the localScale 
+                    // so it doesn't blow up in size when it inherits the parent's scale.
+                    accentObj.transform.SetParent(tileObj.transform, true);
+                }
+
+                if (fogParent != null) tileObj.transform.SetParent(fogParent, true);
                 // Store grid coordinates (x, y) so we can find neighbors later
                 fogTiles[x, y] = new FogTile
                 {
@@ -152,15 +212,32 @@ public class FogGridManager : MonoBehaviour
 
     public IEnumerator FadeOutTile(GameObject obj, float duration = 0.5f)
     {
-        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
-        Color c = sr.color;
+        // Get the parent's SpriteRenderer AND all children SpriteRenderers
+        SpriteRenderer[] allRenderers = obj.GetComponentsInChildren<SpriteRenderer>();
+
+        // Store their starting colors so we don't snap the alpha to 1 before fading
+        Color[] startColors = new Color[allRenderers.Length];
+        for (int i = 0; i < allRenderers.Length; i++)
+        {
+            startColors[i] = allRenderers[i].color;
+        }
 
         float t = 0;
         while (t < duration)
         {
             t += Time.deltaTime;
-            c.a = Mathf.Lerp(1f, 0f, t / duration);
-            sr.color = c;
+            float percent = t / duration;
+
+            for (int i = 0; i < allRenderers.Length; i++)
+            {
+                if (allRenderers[i] != null)
+                {
+                    Color c = startColors[i];
+                    // Lerp from their specific starting alpha down to 0
+                    c.a = Mathf.Lerp(startColors[i].a, 0f, percent);
+                    allRenderers[i].color = c;
+                }
+            }
             yield return null;
         }
 

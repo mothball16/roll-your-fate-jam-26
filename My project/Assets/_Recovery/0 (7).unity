@@ -861,8 +861,6 @@ MonoBehaviour:
   mapRenderer: {fileID: 744744888}
   fogTilePrefab: {fileID: 7911095452714639145, guid: 2d0ae23ef8962704c88c2c81cc82e703, type: 3}
   fogParent: {fileID: 744744887}
-  extraFogLayers: 22
-  accentFogPrefab: {fileID: 0}
 --- !u!4 &823707533
 Transform:
   m_ObjectHideFlags: 0

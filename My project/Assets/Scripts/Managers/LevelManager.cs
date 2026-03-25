@@ -55,6 +55,8 @@ public class LevelManager : MonoSingleton<LevelManager>
     [SerializeField]
     private FogGridManager fogManager;
 
+    public int tilesToReveal = 5;
+
     public Transform startPoint;
 
     public int EnemiesLeft => _enemiesRemainingInLevel + _enemiesCurrentlyActive;
@@ -102,7 +104,7 @@ public class LevelManager : MonoSingleton<LevelManager>
             }
 
             // 2. Reveal adjacent tiles based on progress
-            int tilesToReveal = 2;
+            tilesToReveal = 2;
             for (int i = 0; i < tilesToReveal; i++)
             {
                 fogManager.RevealRandomAdjacentTile();
