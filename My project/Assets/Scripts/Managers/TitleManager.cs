@@ -1,24 +1,34 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Assets.Scripts.Managers
+public class SceneChanger : MonoBehaviour
 {
-    public class TitleManager : MonoBehaviour
+    // Load scene by name (best for buttons)
+    public void LoadScene(string sceneName)
     {
-        [Header("Scenes")]
-        public string GameSceneName = "GameScene"; 
+        SceneManager.LoadScene(sceneName);
+    }
 
-        public void StartGame()
-        {
-            SceneManager.LoadScene(GameSceneName);
-        }
+    // Load scene by build index
+    public void LoadSceneByIndex(int index)
+    {
+        SceneManager.LoadScene(index);
+    }
 
-        public void QuitGame()
-        {
-            Application.Quit();
+    // Reload current scene
+    public void ReloadScene()
+    {
+        Scene current = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(current.name);
+    }
+
+    // Quit game
+    public void QuitGame()
+    {
+        Application.Quit();
+
 #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
+        UnityEditor.EditorApplication.isPlaying = false;
 #endif
-        }
     }
 }
